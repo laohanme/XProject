@@ -75,14 +75,17 @@ function CreatePostScreen({ navigation, route }) {
 }
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 function App() {
 	return (
 		<NavigationContainer>
-			<Tab.Navigator>
-				<Tab.Screen name="Home" component={HomeScreen} />
-			</Tab.Navigator>
+			<Stack.Navigator initialRouteName="Home">
+				<Stack.Screen name="Home" component={HomeScreen} options={{
+	
+				}} />
+				<Stack.Screen name="Details" component={DetailsScreen} />
+				<Stack.Screen name="CreatePost" component={CreatePostScreen} />
+			</Stack.Navigator>
 		</NavigationContainer>
 	);
 }
