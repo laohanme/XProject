@@ -22,6 +22,12 @@ function HomeScreen({ navigation, route }) {
 					navigation.navigate('CreatePost')
 				}
 			/>
+			<Button
+				title="Android Page"
+				onPress={() =>
+					navigation.navigate('Android')
+				}
+			/>
 			<Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
 		</View>
 	);
@@ -46,6 +52,14 @@ function DetailsScreen({ route, navigation }) {
 			/>
 			<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 			<Button title="Go back" onPress={() => navigation.goBack()} />
+		</View>
+	);
+}
+
+function AndroidScreen() {
+	return (
+		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<Text>Android Screen</Text>
 		</View>
 	);
 }
@@ -81,10 +95,11 @@ function App() {
 		<NavigationContainer>
 			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen name="Home" component={HomeScreen} options={{
-	
+
 				}} />
 				<Stack.Screen name="Details" component={DetailsScreen} />
 				<Stack.Screen name="CreatePost" component={CreatePostScreen} />
+				<Stack.Screen name="Android" component={AndroidScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
