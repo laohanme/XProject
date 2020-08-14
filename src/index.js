@@ -4,106 +4,97 @@ import {View, Text, Button, TextInput} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import {HelloWorld} from "_atoms";
 
 //const App = () => <HelloWorld name="Helder Burato Berto"/>;
 
-function HomeScreen({navigation, route}) {
-    React.useEffect(() => {
-        if (route.params?.post) {
-            // Post updated, do something with `route.params.post`
-            // For example, send the post to the server
-            console.log(route.params?.post);
-        }
-    }, [route.params?.post]);
-
+function HomeScreen({navigation}) {
     return (
         <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-            <Button
-                title="Create post"
-                onPress={() =>
-                    navigation.navigate("CreatePost")
-                }
-            />
-            <Button
-                title="Android Page"
-                onPress={() =>
-                    navigation.navigate("Android")
-                }
-            />
-            <Text style={{margin: 10}}>Post: {route.params?.post}</Text>
+            <Text style={{margin: 10}}>Hello</Text>
+            <Button title="GO" onPress={() => navigation.navigate("FeedTab")}/>
         </View>
     );
 }
 
-function DetailsScreen({route, navigation}) {
-    /* 2. Get the param */
-    const {itemId} = route.params;
-    const {otherParam} = route.params;
+function Feed({navigation}) {
     return (
         <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-            <Text>Details Screen</Text>
-            <Text>itemId: {JSON.stringify(itemId)}</Text>
-            <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-            <Button
-                title="Go to Details... again"
-                onPress={() =>
-                    navigation.push("Details", {
-                        itemId: Math.floor(Math.random() * 100)
-                    })
-                }
-            />
-            <Button title="Go to Home"
-                    onPress={() => navigation.navigate("Home")}/>
-            <Button title="Go back" onPress={() => navigation.goBack()}/>
+            <Text style={{margin: 10}}>Feed</Text>
         </View>
     );
 }
 
-function AndroidScreen() {
+function Notifications({navigation}) {
     return (
         <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-            <Text>Android Screen</Text>
+            <Text style={{margin: 10}}>Notifications</Text>
         </View>
-    );
-}
-
-function CreatePostScreen({navigation, route}) {
-    const [postText, setPostText] = React.useState("");
-    return (
-        <>
-            <TextInput
-                multiline
-                placeholder="What's on your mind?"
-                style={{height: 100, padding: 10, backgroundColor: "white"}}
-                value={postText}
-                onChangeText={setPostText}
-            />
-            <Button
-                title="Done"
-                onPress={() => {
-                    // Pass params back to home screen
-                    if (postText != "") {
-                        navigation.navigate("Home", {post: postText});
-                    }
-                }}
-            />
-        </>
     );
 }
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Home" component={HomeScreen}/>
+        </Stack.Navigator>
+    );
+}
+
+function FeedTabs() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Feed" component={Feed}/>
+        </Stack.Navigator>
+    );
+}
+
+function NotificationTab() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Notifications" component={Notifications}/>
+        </Stack.Navigator>
+    );
+}
 
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={HomeScreen} options={{}}/>
-                <Stack.Screen name="Details" component={DetailsScreen}/>
-                <Stack.Screen name="CreatePost" component={CreatePostScreen}/>
-                <Stack.Screen name="Android" component={AndroidScreen}/>
-            </Stack.Navigator>
+            <Tab.Navigator
+                screenOptions={({route}) => ({
+                    tabBarIcon: ({focused, color, size}) => {
+                        let iconName;
+
+                        if (route.name === "HomeTab") {
+                            iconName = focused ?
+                                "ios-document" :
+                                "ios-document-outline";
+                        }
+                        else if (route.name === "FeedTab") {
+                            iconName = focused ?
+                                "ios-list-outline" :
+                                "ios-list";
+                        }
+
+                        // You can return any component that you like here!
+                        return <Ionicons name={iconName} size={size}
+                                         color={color}/>;
+                    }
+                })}
+                tabBarOptions={{
+                    activeTintColor: "tomato",
+                    inactiveTintColor: "gray"
+                }}
+            >
+
+                <Tab.Screen name="HomeTab" component={HomeTabs}/>
+                <Tab.Screen name="FeedTab" component={FeedTabs}/>
+            </Tab.Navigator>
         </NavigationContainer>
     );
 }
