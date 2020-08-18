@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from "react";
-import {View, Text, Button, TextInput} from "react-native";
+import {View, Text, Button, TextInput, StyleSheet} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -9,6 +9,30 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import {HelloWorld} from "_atoms";
 
 //const App = () => <HelloWorld name="Helder Burato Berto"/>;
+const styles = StyleSheet.create({
+    center: {
+        alignItems: "center"
+    }
+});
+
+const Hello = (props) => {
+    return (
+        <View style={styles.center}>
+            <Text>Hello {props.name}!</Text>
+        </View>
+    );
+};
+
+function HelloScreen() {
+    return (
+        <View style={[styles.center, {top: 50}]}>
+            <Hello name='Jackson'/>
+            <Hello name='Jorden'/>
+            <Hello name='Laohan'/>
+            <Hello name='Alvin'/>
+        </View>
+    );
+}
 
 function HomeScreen({navigation}) {
     return (
@@ -42,6 +66,14 @@ function HomeTabs() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeScreen}/>
+        </Stack.Navigator>
+    );
+}
+
+function HelloTabs() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Hello" component={HelloScreen}/>
         </Stack.Navigator>
     );
 }
@@ -80,6 +112,11 @@ function App() {
                                 "ios-list-outline" :
                                 "ios-list";
                         }
+                        else if (route.name === "HelloTab") {
+                            iconName = focused ?
+                                "ios-happy-outline" :
+                                "ios-happy";
+                        }
 
                         // You can return any component that you like here!
                         return <Ionicons name={iconName} size={size}
@@ -94,6 +131,7 @@ function App() {
 
                 <Tab.Screen name="HomeTab" component={HomeTabs}/>
                 <Tab.Screen name="FeedTab" component={FeedTabs}/>
+                <Tab.Screen name="HelloTab" component={HelloTabs}/>
             </Tab.Navigator>
         </NavigationContainer>
     );
