@@ -1,6 +1,14 @@
 import "react-native-gesture-handler";
 import * as React from "react";
-import {View, Text, Button, TextInput, StyleSheet} from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    Button,
+    TextInput,
+    ScrollView,
+    StyleSheet
+} from "react-native";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -20,6 +28,28 @@ const Hello = (props) => {
         <View style={styles.center}>
             <Text>Hello {props.name}!</Text>
         </View>
+    );
+};
+
+const TextScreen = () => {
+    return (
+        <ScrollView>
+            <View style={styles.center}>
+                <Text>Some more text</Text>
+                <Image
+                    source={{uri: "https://reactnative.dev/docs/assets/p_cat2.png"}}
+                    style={{width: 200, height: 200}}
+                />
+            </View>
+            <TextInput
+                style={{
+                    height: 40,
+                    borderColor: "gray",
+                    borderWidth: 1
+                }}
+                defaultValue="Type here"
+            />
+        </ScrollView>
     );
 };
 
@@ -73,7 +103,7 @@ function HomeTabs() {
 function HelloTabs() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Hello" component={HelloScreen}/>
+            <Stack.Screen name="Hello" component={TextScreen}/>
         </Stack.Navigator>
     );
 }
