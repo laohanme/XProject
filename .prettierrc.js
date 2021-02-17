@@ -6,3 +6,8 @@ module.exports = {
   trailingComma: 'all',
 };
 */
+
+module.exports = {
+    bracketSpacing: true,
+    tabWidth: 4,
+};
